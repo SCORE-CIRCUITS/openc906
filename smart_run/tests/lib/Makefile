@@ -29,25 +29,12 @@ OBJECTS = $(SSRC:%.S=%.o) $(sSRC:%.s=%.o) $(CSRC:%.c=%.o)
 
 #INCDIR = -I/tools/cskytools/csky-abiv2-elf-tools-x86_64-20130312/csky-abiv2-elf/include -I.
 
-FLAG_ABI = 
-FLAG_MARCH = -mtune=c906 
-#CPU_ARCH_FLAG_0 => CPU Arch: c906, c906fd, c906fdv
-ifeq (${CPU_ARCH_FLAG_0}, c906)
-  FLAG_MARCH += -march=rv64imacxtheadc
-  FLAG_ABI   = -mabi=lp64
-else
-  ifeq (${CPU_ARCH_FLAG_0}, c906fd)
-    FLAG_MARCH += -march=rv64imafdcxtheadc
-    FLAG_ABI   = -mabi=lp64d
-  else  # c906fdv
-    FLAG_MARCH = -march=rv64imafdcvxtheadc
-    FLAG_ABI   = -mabi=lp64dv
-  endif
-endif
+FLAG_ABI = -mabi=lp64d
+FLAG_MARCH = -march=rv64gc
 CFLAGS = ${FLAG_MARCH} ${FLAG_ABI} 
 
 ifeq (${CASENAME}, coremark)
-  CFLAGS +=  -c -O3 -mtune=c906 -static -funroll-all-loops -finline-limit=500 -fgcse-sm -fno-schedule-insns --param max-rtl-if-conversion-unpredictable-cost=100 -msignedness-cmpiv -fno-code-hoisting -mno-thread-jumps1 -mno-iv-adjust-addr-cost -mno-expand-split-imm -DITERATIONS=10000
+  CFLAGS +=  -c -O3 -static -funroll-all-loops -finline-limit=500 -DITERATIONS=1
 else
   CFLAGS += -c -O2
 endif

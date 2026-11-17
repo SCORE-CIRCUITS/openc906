@@ -28,7 +28,7 @@ __start:
 
 # enable extension
   li   x3, 0x400000
-  csrs mxstatus,x3
+  csrs 0x7c0,x3
 
 # enable fpu
   li   x3, 0x802000
